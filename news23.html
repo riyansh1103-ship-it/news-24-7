@@ -1,0 +1,593 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kavyansh News Chhattisgarh</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#d60000;--dark:#171717;--bg:#f3f4f6}
+body{font-family:Arial,"Noto Sans Devanagari",sans-serif;background:var(--bg);color:#222}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+header{background:white;padding:20px 5%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.logo{font-size:27px;font-weight:900;color:var(--red)}
+.logo span{color:#222}
+header p{font-size:12px;color:#666;margin-top:5px}
+.top{background:#191919;color:white;padding:9px 5%;font-size:13px}
+nav{background:var(--red);display:flex;overflow-x:auto;white-space:nowrap;padding:0 4%}
+nav button{border:0;background:transparent;color:white;padding:14px;font-weight:bold}
+nav button:hover{background:#a90000}
+.container{width:92%;max-width:1250px;margin:22px auto}
+.breaking{background:white;margin:15px auto;display:flex;align-items:center;overflow:hidden}
+.breaking b{background:var(--red);color:white;padding:14px;white-space:nowrap}
+#ticker{padding:12px;font-size:14px}
+h2.title{font-size:22px;border-left:5px solid var(--red);padding-left:12px;margin:20px 0}
+.hero{background:linear-gradient(120deg,#191919,#700000);color:white;padding:30px;border-radius:8px;margin-bottom:25px}
+.hero h1{font-size:30px;margin:12px 0}
+.hero p{line-height:1.8}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{background:white;border-radius:7px;overflow:hidden;box-shadow:0 2px 10px #0000000b}
+.card img{width:100%;height:190px;object-fit:cover;background:#ddd}
+.card-body{padding:16px}
+.tag{color:var(--red);font-size:12px;font-weight:bold}
+.card h3{margin:10px 0;line-height:1.5}
+.card p{font-size:14px;color:#555;line-height:1.7;white-space:pre-wrap}
+.meta{font-size:12px;color:#888;margin-top:12px}
+.btn{border:0;border-radius:4px;padding:10px 14px;background:var(--red);color:white;font-weight:bold}
+.btn.secondary{background:#333}
+.btn.danger{background:#b00000}
+.btn.light{background:#eee;color:#222}
+.empty{background:white;padding:30px;text-align:center;border-radius:7px}
+footer{background:#181818;color:white;text-align:center;padding:30px 15px;margin-top:40px}
+footer p{color:#bbb;margin-top:10px;font-size:13px}
+.hidden{display:none!important}
+
+/* Admin */
+.admin-wrap{max-width:1000px;margin:25px auto;padding:0 15px}
+.panel{background:white;padding:22px;border-radius:8px;margin-bottom:20px;box-shadow:0 2px 10px #0000000a}
+.panel h2{margin-bottom:18px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.field label{font-size:14px;font-weight:bold}
+.field input,.field textarea,.field select{
+width:100%;padding:11px;border:1px solid #ccc;border-radius:4px;background:white
+}
+.field textarea{min-height:110px;resize:vertical}
+.admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.admin-news{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #eee}
+.admin-news img{width:75px;height:60px;object-fit:cover;background:#eee;border-radius:4px}
+.admin-news .info{flex:1;min-width:0}
+.admin-news h4{margin-bottom:6px;overflow-wrap:anywhere}
+.admin-news p{font-size:12px;color:#777}
+.notice{background:#fff1cf;color:#684600;padding:12px;border-radius:5px;font-size:13px;line-height:1.7;margin-bottom:15px}
+.status{font-size:13px;margin-top:12px;color:#176b30}
+#search{padding:10px;width:100%;border:1px solid #ddd;border-radius:5px;margin-bottom:16px}
+@media(max-width:750px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero h1{font-size:24px}}
+@media(max-width:500px){.grid,.form-grid{grid-template-columns:1fr}.logo{font-size:23px}.hero{padding:22px}.admin-news{align-items:flex-start}.admin-news img{width:60px;height:55px}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <span>छत्तीसगढ़ की आवाज़ | Kavyansh News</span>
+  <span id="date" style="float:right"></span>
+</div>
+
+<header>
+  <div>
+    <div class="logo">KAVYANSH <span>NEWS</span></div>
+    <p>छत्तीसगढ़ की खबरें, सबसे पहले</p>
+  </div>
+  <button class="btn" id="adminOpen">⚙ Admin Panel</button>
+</header>
+
+<nav id="categories">
+  <button data-cat="सभी">होम</button>
+  <button data-cat="छत्तीसगढ़">छत्तीसगढ़</button>
+  <button data-cat="राजनीति">राजनीति</button>
+  <button data-cat="देश">देश</button>
+  <button data-cat="शिक्षा">शिक्षा</button>
+  <button data-cat="खेल">खेल</button>
+  <button data-cat="मनोरंजन">मनोरंजन</button>
+</nav>
+
+<main id="publicSite">
+  <div class="breaking">
+    <b>🔴 BREAKING NEWS</b>
+    <div id="ticker">Kavyansh News Chhattisgarh में आपका स्वागत है।</div>
+  </div>
+
+  <div class="container">
+    <section class="hero">
+      <span class="tag" style="color:#ffb3b3">छत्तीसगढ़ न्यूज़ पोर्टल</span>
+      <h1>हर खबर पर नज़र, आपके शहर की आवाज़</h1>
+      <p>छत्तीसगढ़, शिक्षा, राजनीति, खेल और देश की खबरें पढ़ें।</p>
+    </section>
+
+    <h2 class="title" id="listTitle">लेटेस्ट न्यूज़</h2>
+    <input id="search" type="search" placeholder="खबर का शीर्षक खोजें...">
+    <div id="newsGrid" class="grid"></div>
+    <div id="empty" class="empty hidden">अभी कोई खबर उपलब्ध नहीं है।</div>
+  </div>
+</main>
+
+<!-- ADMIN LOGIN -->
+<section id="loginPage" class="admin-wrap hidden">
+  <div class="panel" style="max-width:450px;margin:35px auto">
+    <h2>🔐 Admin Login</h2>
+    <div class="notice">
+      यह केवल लोकल डेमो लॉगिन है। वास्तविक वेबसाइट के लिए सुरक्षित
+      सर्वर-आधारित लॉगिन आवश्यक है।
+    </div>
+    <form id="loginForm">
+      <div class="field">
+        <label for="username">Username</label>
+        <input id="username" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" required autocomplete="current-password">
+      </div>
+      <button class="btn" type="submit">Login करें</button>
+      <button class="btn light" type="button" id="cancelLogin">वापस जाएँ</button>
+      <p id="loginError" class="status" style="color:red"></p>
+    </form>
+  </div>
+</section>
+
+<!-- ADMIN DASHBOARD -->
+<section id="adminPage" class="admin-wrap hidden">
+  <div class="panel">
+    <h2>⚙ Kavyansh News — Admin Dashboard</h2>
+    <p>यहाँ से अपनी वेबसाइट की खबरें मैनेज करो।</p>
+    <div class="admin-actions" style="margin-top:15px">
+      <button class="btn" id="newStory">+ नई खबर</button>
+      <button class="btn secondary" id="editTicker">Breaking News बदलें</button>
+      <button class="btn danger" id="logout">Logout</button>
+      <button class="btn light" id="backSite">वेबसाइट देखें</button>
+    </div>
+    <p id="adminStatus" class="status"></p>
+  </div>
+
+  <div class="panel" id="editor">
+    <h2 id="formTitle">📰 नई खबर प्रकाशित करें</h2>
+    <form id="newsForm">
+      <input type="hidden" id="editId">
+
+      <div class="field">
+        <label for="headline">खबर का शीर्षक *</label>
+        <input id="headline" maxlength="180" required
+               placeholder="खबर का मुख्य शीर्षक लिखें">
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="category">कैटेगरी *</label>
+          <select id="category" required>
+            <option>छत्तीसगढ़</option>
+            <option>राजनीति</option>
+            <option>देश</option>
+            <option>शिक्षा</option>
+            <option>खेल</option>
+            <option>मनोरंजन</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="author">रिपोर्टर का नाम</label>
+          <input id="author" maxlength="80" placeholder="रिपोर्टर का नाम">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="summary">खबर का विवरण *</label>
+        <textarea id="summary" maxlength="12000" required
+          placeholder="पूरी खबर यहाँ लिखें..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="photo">खबर की फोटो अपलोड करें</label>
+        <input id="photo" type="file" accept="image/*">
+        <small>JPG, PNG या WebP फोटो चुनें। अधिकतम 1 MB।</small>
+        <img id="preview" class="hidden"
+          style="max-width:220px;max-height:160px;object-fit:contain"
+          alt="फोटो प्रीव्यू">
+        <button class="btn light hidden" id="removePhoto" type="button">
+          फोटो हटाएँ
+        </button>
+      </div>
+
+      <div class="field">
+        <label>
+          <input type="checkbox" id="isBreaking">
+          इस खबर को Breaking News बनाएं
+        </label>
+      </div>
+
+      <div class="admin-actions">
+        <button class="btn" type="submit" id="saveButton">खबर प्रकाशित करें</button>
+        <button class="btn light" type="button" id="resetForm">फॉर्म साफ करें</button>
+      </div>
+      <p id="formStatus" class="status"></p>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2>📋 प्रकाशित खबरें (<span id="count">0</span>)</h2>
+    <div id="adminNewsList"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo" style="color:white">KAVYANSH <span style="color:#ff3333">NEWS</span></div>
+  <p>छत्तीसगढ़ की आवाज़ • निष्पक्ष खबरें</p>
+  <p>© <span id="year"></span> Kavyansh News Chhattisgarh</p>
+</footer>
+
+<script>
+/*
+ DEMO LOGIN:
+ Username: admin
+ Password: kavyansh123
+
+ यह सुरक्षित production authentication नहीं है।
+ खबरें और फोटो इस ब्राउज़र के localStorage में सेव होते हैं।
+*/
+
+const $ = id => document.getElementById(id);
+
+const CREDENTIAL_USER = "admin";
+const CREDENTIAL_PASS = "kavyansh123";
+
+const KEYS = {
+  news: "kavyansh_news_v2",
+  ticker: "kavyansh_ticker_v2"
+};
+
+let stories = loadStories();
+let activeCategory = "सभी";
+let selectedPhoto = "";
+let loggedIn = false;
+
+function loadStories() {
+  try {
+    const saved = localStorage.getItem(KEYS.news);
+    const parsed = saved ? JSON.parse(saved) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveStories() {
+  localStorage.setItem(KEYS.news, JSON.stringify(stories));
+}
+
+function escapeHTML(value = "") {
+  return String(value).replace(/[&<>"']/g, ch => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;",
+    '"':"&quot;", "'":"&#39;"
+  })[ch]);
+}
+
+function showPage(page) {
+  $("publicSite").classList.toggle("hidden", page !== "public");
+  $("loginPage").classList.toggle("hidden", page !== "login");
+  $("adminPage").classList.toggle("hidden", page !== "admin");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function showPublic() {
+  showPage("public");
+  renderNews();
+}
+
+function openAdmin() {
+  if (loggedIn) {
+    showPage("admin");
+    renderAdmin();
+  } else {
+    $("loginError").textContent = "";
+    $("loginForm").reset();
+    showPage("login");
+  }
+}
+
+$("adminOpen").addEventListener("click", openAdmin);
+$("cancelLogin").addEventListener("click", showPublic);
+$("backSite").addEventListener("click", showPublic);
+
+$("loginForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  if ($("username").value === CREDENTIAL_USER &&
+      $("password").value === CREDENTIAL_PASS) {
+    loggedIn = true;
+    $("loginError").textContent = "";
+    $("adminStatus").textContent = "Admin panel खुल गया है।";
+    showPage("admin");
+    renderAdmin();
+  } else {
+    $("loginError").textContent = "गलत Username या Password!";
+  }
+});
+
+$("logout").addEventListener("click", () => {
+  loggedIn = false;
+  resetEditor();
+  showPublic();
+});
+
+function safeImage(story) {
+  return story.photo
+    ? `<img src="${story.photo}" alt="${escapeHTML(story.title)}">`
+    : `<div style="height:190px;background:#eee;display:grid;place-items:center;font-size:45px">📰</div>`;
+}
+
+function renderNews() {
+  const query = $("search").value.trim().toLocaleLowerCase("hi");
+
+  const visible = stories.filter(story => {
+    const categoryOK = activeCategory === "सभी" ||
+                       story.category === activeCategory;
+    const text = (story.title + " " + story.summary + " " +
+                  story.category).toLocaleLowerCase("hi");
+    return categoryOK && text.includes(query);
+  }).sort((a,b) => b.created - a.created);
+
+  $("newsGrid").innerHTML = visible.map(story => `
+    <article class="card">
+      ${safeImage(story)}
+      <div class="card-body">
+        <span class="tag">${escapeHTML(story.category)}</span>
+        ${story.breaking ? '<span class="tag"> 🔴 BREAKING</span>' : ''}
+        <h3>${escapeHTML(story.title)}</h3>
+        <p>${escapeHTML(story.summary)}</p>
+        <div class="meta">
+          ${escapeHTML(story.author || "Kavyansh News")} ·
+          ${escapeHTML(story.date || "")}
+        </div>
+      </div>
+    </article>
+  `).join("");
+
+  $("empty").classList.toggle("hidden", visible.length !== 0);
+
+  const breaking = stories.filter(s => s.breaking)
+                           .sort((a,b) => b.created-a.created);
+
+  const ticker = localStorage.getItem(KEYS.ticker) ||
+    "Kavyansh News Chhattisgarh में आपका स्वागत है।";
+
+  $("ticker").textContent = breaking.length
+    ? breaking.map(s => s.title).join("  •  ")
+    : ticker;
+}
+
+$("search").addEventListener("input", renderNews);
+
+$("categories").addEventListener("click", event => {
+  const button = event.target.closest("button[data-cat]");
+  if (!button) return;
+
+  activeCategory = button.dataset.cat;
+  $("listTitle").textContent = activeCategory === "सभी"
+    ? "लेटेस्ट न्यूज़"
+    : activeCategory + " न्यूज़";
+
+  renderNews();
+  $("newsGrid").scrollIntoView({behavior:"smooth",block:"start"});
+});
+
+$("editTicker").addEventListener("click", () => {
+  if (!loggedIn) return;
+
+  const oldValue = localStorage.getItem(KEYS.ticker) ||
+    "Kavyansh News Chhattisgarh में आपका स्वागत है।";
+
+  const value = prompt("नई Breaking News हेडलाइन लिखें:", oldValue);
+
+  if (value !== null && value.trim()) {
+    localStorage.setItem(KEYS.ticker, value.trim().slice(0,500));
+    renderNews();
+    $("adminStatus").textContent = "Breaking News अपडेट हो गई।";
+  }
+});
+
+$("newStory").addEventListener("click", () => {
+  resetEditor();
+  $("editor").scrollIntoView({behavior:"smooth"});
+});
+
+$("photo").addEventListener("change", event => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("कृपया एक इमेज फाइल चुनें।");
+    event.target.value = "";
+    return;
+  }
+
+  if (file.size > 1024 * 1024) {
+    alert("फोटो 1 MB से छोटी होनी चाहिए।");
+    event.target.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    selectedPhoto = reader.result;
+    $("preview").src = selectedPhoto;
+    $("preview").classList.remove("hidden");
+    $("removePhoto").classList.remove("hidden");
+  };
+
+  reader.readAsDataURL(file);
+});
+
+$("removePhoto").addEventListener("click", () => {
+  selectedPhoto = "";
+  $("photo").value = "";
+  $("preview").removeAttribute("src");
+  $("preview").classList.add("hidden");
+  $("removePhoto").classList.add("hidden");
+});
+
+$("newsForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (!loggedIn) {
+    alert("पहले Admin Login करें।");
+    return;
+  }
+
+  const id = $("editId").value;
+  const existing = stories.find(s => s.id === id);
+
+  const story = {
+    id: id || (Date.now().toString() + Math.random().toString(16).slice(2)),
+    title: $("headline").value.trim(),
+    category: $("category").value,
+    author: $("author").value.trim(),
+    summary: $("summary").value.trim(),
+    photo: selectedPhoto,
+    breaking: $("isBreaking").checked,
+    created: existing ? existing.created : Date.now(),
+    date: new Date().toLocaleDateString("hi-IN")
+  };
+
+  if (!story.title || !story.summary) {
+    $("formStatus").textContent = "शीर्षक और विवरण भरना जरूरी है।";
+    return;
+  }
+
+  if (existing) {
+    stories = stories.map(s => s.id === id ? story : s);
+  } else {
+    stories.unshift(story);
+  }
+
+  try {
+    saveStories();
+  } catch (error) {
+    alert("ब्राउज़र स्टोरेज भर गया है। छोटी फोटो चुनें या कुछ पुरानी खबरें हटाएँ।");
+    return;
+  }
+
+  $("formStatus").textContent = "खबर सफलतापूर्वक सेव हो गई!";
+  renderNews();
+  renderAdmin();
+  resetEditor();
+  $("adminStatus").textContent = "खबर सेव हो गई। वेबसाइट पर जाकर जाँचें।";
+});
+
+function editStory(id) {
+  if (!loggedIn) return;
+
+  const story = stories.find(s => s.id === id);
+  if (!story) return;
+
+  $("editId").value = story.id;
+  $("headline").value = story.title;
+  $("category").value = story.category;
+  $("author").value = story.author || "";
+  $("summary").value = story.summary;
+  $("isBreaking").checked = !!story.breaking;
+
+  selectedPhoto = story.photo || "";
+
+  if (selectedPhoto) {
+    $("preview").src = selectedPhoto;
+    $("preview").classList.remove("hidden");
+    $("removePhoto").classList.remove("hidden");
+  } else {
+    $("preview").classList.add("hidden");
+    $("removePhoto").classList.add("hidden");
+  }
+
+  $("formTitle").textContent = "✏️ खबर एडिट करें";
+  $("saveButton").textContent = "बदलाव सेव करें";
+  $("editor").scrollIntoView({behavior:"smooth"});
+}
+
+function deleteStory(id) {
+  if (!loggedIn) return;
+
+  const story = stories.find(s => s.id === id);
+  if (!story) return;
+
+  if (!confirm("क्या आप यह खबर डिलीट करना चाहते हैं?")) return;
+
+  stories = stories.filter(s => s.id !== id);
+
+  try {
+    saveStories();
+  } catch (error) {
+    alert("खबर सेव नहीं हो पाई।");
+    return;
+  }
+
+  renderNews();
+  renderAdmin();
+  $("adminStatus").textContent = "खबर डिलीट कर दी गई।";
+}
+
+function renderAdmin() {
+  if (!loggedIn) return;
+
+  $("count").textContent = stories.length;
+
+  $("adminNewsList").innerHTML = stories.length
+    ? stories.map(story => `
+      <div class="admin-news">
+        ${story.photo
+          ? `<img src="${story.photo}" alt="">`
+          : `<div style="width:60px;font-size:30px">📰</div>`}
+        <div class="info">
+          <h4>${escapeHTML(story.title)}</h4>
+          <p>${escapeHTML(story.category)} ·
+             ${escapeHTML(story.date || "")}</p>
+        </div>
+        <div class="admin-actions">
+          <button class="btn secondary" data-edit="${story.id}">Edit</button>
+          <button class="btn danger" data-delete="${story.id}">Delete</button>
+        </div>
+      </div>
+    `).join("")
+    : '<p>अभी कोई खबर नहीं है। ऊपर “नई खबर” पर क्लिक करें।</p>';
+}
+
+$("adminNewsList").addEventListener("click", event => {
+  const edit = event.target.closest("[data-edit]");
+  const del = event.target.closest("[data-delete]");
+
+  if (edit) editStory(edit.dataset.edit);
+  if (del) deleteStory(del.dataset.delete);
+});
+
+function resetEditor() {
+  $("newsForm").reset();
+  $("editId").value = "";
+  selectedPhoto = "";
+  $("preview").removeAttribute("src");
+  $("preview").classList.add("hidden");
+  $("removePhoto").classList.add("hidden");
+  $("formTitle").textContent = "📰 नई खबर प्रकाशित करें";
+  $("saveButton").textContent = "खबर प्रकाशित करें";
+  $("formStatus").textContent = "";
+}
+
+$("resetForm").addEventListener("click", resetEditor);
+
+$("date").textContent = new Date().toLocaleDateString("hi-IN");
+$("year").textContent = new Date().getFullYear();
+
+renderNews();
+</script>
+
+</body>
+</html>
